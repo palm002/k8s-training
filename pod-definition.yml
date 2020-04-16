@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  # Optional: specify which namespace to deploy to -- namespace must exist
+  # namespace: dev
+  labels:
+    app: myapp
+    type: front-end
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+      # Specify ports
+      ports:
+        - containerPort: 8080
+      resources:
+        requests:
+          memory: "1Gi" # specify MiB or GiB
+          cpu: 1 # 1 cpu = vCPU/core/hyperthread
+        limits:
+          memory: "2Gi"
+          cpu: 2
+
+#  Specifying node name (where to deploy the pod)
+  # nodeName: node02
+
+# Applying a toleration on pod
+  # tolerations:
+  #   - key: "app"
+  #     operator: "Equal"
+  #     value: "blue"
+  #     effect: "NoSchedule"
+
+# Select what node to go to (node selectors)
+  # nodeSelector:
+  #   size: Large
+
+# Node affinity
+  # affinity:
+  #   nodeAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       nodeSelectorTerms:
+  #         - matchExpressions:
+  #           - key: size
+  #             operator: In # this will hit all nodes with the following values
+  #             values:
+  #               - Large 
+  #               - Medium
+  #             operator: NotIn # opposite of above
+  #             operator: Exists # hits the nodes if label size exists, doesnt even check the values

@@ -1,0 +1,75 @@
+#### NTS ###
+# I am using 
+# certificate-authority: ca.crt
+#
+#  and
+# 
+# client-certificate: admin.crt
+# client-key: admin.key
+# 
+# but should use full paths
+apiVersion: v1
+kind: Config
+current-context: dev-user@google
+clusters:
+  - name: my-kube-playground
+    cluster:
+      certificate-authority: /etc/kubernetes/pki/ca.crt
+      # Alternate to above. We can get the contents of the ca.crt file,
+      # encode it to base64 then use that output in certificate-authority-date
+      # or vice versa
+      certificate-authority-data: KJUAGVHSJSA
+            HAKJSAKSKAHSJKAHSJKAHJKSAHJKSHAJK
+            JKHKSAJSHAKJHSJKAHSJKHAJKSHAJKHSK
+            HSAHSAJHSKHAKSHAKJHSJAKHSKJAHSJKA
+      server: https://my-kube-playground:6443
+  - name: development
+    cluster:
+      certificate-authority:
+      server:
+  - name: production
+    cluster:
+      certificate-authority:
+      server:
+  - name: google
+    cluster:
+      certificate-authority:
+      server:
+contexts:
+  - name: my-kube-admin@my-kube-playground
+  # get the name from clusters.name and users.name
+    context:
+      cluser: my-kube-playground
+      user: my-kube-admin
+      # can make context switch to a particular namespace
+      namespace: fun
+  - name: admin@production
+    context:
+      cluster: production
+      user: admin
+  - name: dev-user@google
+    context:
+      cluster: google
+      user: dev-user
+      namespace: development
+  - name: prod-user@production
+    context:
+      cluster: production
+      user: prod-user
+users:
+  - name: my-kube-admin
+    user:
+      client-certificate: admin.crt
+      client-key: admin.key
+  - name: admin
+    user:
+      client-certificate:
+      client-key:
+  - name: dev-user
+    user:
+      client-certificate:
+      client-key:
+  - name: prod-user
+    user:
+      client-certificate:
+      client-key: 

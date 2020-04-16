@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-webapp-color
+spec:
+  containers:
+  - name: simple-webapp-color
+    image: simple-webapp-color
+    ports:
+      - containerPort: 8080
+    # plain key value
+    env:
+      - name: APP_COLOR
+        value: pink
+    # from ConfigMap
+    env:
+      - name: APP_COLOR
+        valueFrom:
+          configMapKeyRef:
+            name: myapp-config
+            key: APP_COLOR 
+    # Secrets
+    env:
+      - name: APP_COLOR
+        valueFrom:
+          secretKeyRef: hjdskahjkda

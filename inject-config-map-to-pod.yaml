@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-simple-app-color
+  labels:
+    name: my-simple-app-color
+spec:
+  containers:
+  - name: my-simple-app-color
+    image: my-simple-app-color
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 8080
+    # This adds whole file
+    envFrom: 
+      - configMapRef:
+          name: myapp-config
+      
