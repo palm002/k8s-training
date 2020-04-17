@@ -1,0 +1,9 @@
+ApiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer
+# each rule has 3 sections
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["list", "get", " create", "update", "delete"]
