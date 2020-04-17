@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+  # label will be used by network-policy.yaml
+  labels:
+    role: db
+spec:
+  containers:
+  - name: myapp
+    image: api
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 5000

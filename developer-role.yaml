@@ -1,9 +1,19 @@
-ApiVersion: rbac.authorization.k8s.io/v1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: developer
+  # namespace: test
 # each rule has 3 sections
 rules:
-  - apiGroups: [""]
-    resources: ["pods"]
+  - apiGroups: [""] # this refers to core group
+    resources: ["pods"] # this refers to named group
     verbs: ["list", "get", " create", "update", "delete"]
+    # user can only use above verbs for nginx and backend pods
+    resourceNames:
+      - nginx
+      - backend
+# allow devs to create config maps
+  - apiGroups: [""]
+    resources: 
+      - ConfigMap
+    verbs: ["create"]
