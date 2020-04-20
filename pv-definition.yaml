@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-vol1
+spec:
+# defines how a volume should be mounted on the hosts
+# Supported values - ReadOnlyMany, ReadWriteOnce & ReadWriteMany
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  # this uses storage on the nodes local directory
+  hostPath:
+    path: /tmp/my-data
+  # the above can be replaced with
+  awsElasticBlockStore:
+    volumeID: <volume-id>
+    fsType: ext4

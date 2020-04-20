@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: random-number-generator
+spec:
+  containers:
+    - name: alpine
+      image: alpine
+      command:
+        - "/bin/sh"
+        - "-c"
+      args: ["shuf -i 0-100 -n 1 >> /opt/number.out"]
+      #  mounts data-volume to /opt/data-volume within the container
+      # the random number will now be written to /opt mount inside the container.
+      # upon deletion, the file still lives on the host at /data/data-volume
+      volumeMounts:
+        - mountPath: /opt
+          name: data-volume
+
+# any files created in the volume would be stored in the /data directory on the node
+# this approach is only good for a single node because each node would have different data that's not replicated
+  volumes:
+  - name: data-volume
+    hostPath:
+      path: /data
+      type: Directory
+    # this makes a data-volume on AWS EBS which can be used cluster-wide
+  - name: data-volume
+    awsElasticBlockStore:
+        volumeID: <my-id>
+        fsType: ext4
